@@ -1,8 +1,8 @@
 # Инициализируем начальные значения переменных
 max_len = 1
 counter = 1
-last = 0
-direction = 0  # Указывает направление роста
+last = None
+direction = None
 
 # Бесконечный цикл для ввода чисел пользователем
 while True:
@@ -11,32 +11,37 @@ while True:
     # Если число равно нулю, то выходим из цикла
     if number == 0:
         break
-    else:
-        # Если last равно 0, то записываем в него значение number и продолжаем цикл
-        if last == 0:
-            last = number
-            continue
-        # Если число больше предыдущего и direction указывает на рост или не определено,
-        # увеличиваем счетчик и проверяем, не превысил ли максимальную длину
-        if number > last and (direction == "Up" or direction == 0):
-            direction = "Up"
-            counter += 1
-            if counter > max_len:
-                max_len = counter
-        # Если число меньше предыдущего и direction указывает на уменьшение или не определено,
-        # увеличиваем счетчик и проверяем, не превысил ли максимальную длину
-        elif number < last and (direction == "Down" or direction == 0):
-            direction = "Down"
-            counter += 1
-            if counter > max_len:
-                max_len = counter
-        # Если число не соответствует текущему направлению или direction не определено,
-        # обнуляем счетчик и продолжаем цикл
-        else:
-            counter = 1
-            continue
-        # Записываем значение number в last для следующей итерации цикла
+
+    # Если это первое число, записываем его и продолжаем цикл
+    if last is None:
         last = number
+        continue
+
+    # Определяем направление последовательности
+    diff = number - last
+    if diff > 0:
+        curr_dir = "Up"
+    elif diff < 0:
+        curr_dir = "Down"
+    else:
+        curr_dir = None
+
+    # Если направление не изменилось, увеличиваем счетчик
+    if curr_dir == direction or direction is None:
+        counter += 1
+    else:
+        # Если направление изменилось, проверяем максимальную длину
+        if counter > max_len:
+            max_len = counter
+        counter = 2  # начинаем новую последовательность с текущего и предыдущего числа
+
+    # Обновляем значения переменных для следующей итерации
+    last = number
+    direction = curr_dir
+
+# Проверяем максимальную длину последовательности после выхода из цикла
+if counter > max_len:
+    max_len = counter
 
 # Выводим наибольшую длину монотонно возрастающей или убывающей последовательности
 print(max_len)
