@@ -17,6 +17,7 @@ while True:
         last = number
         continue
 
+
     # Определяем направление последовательности
     diff = number - last
     if diff > 0:
@@ -27,8 +28,12 @@ while True:
         curr_dir = None
 
     # Если направление не изменилось, увеличиваем счетчик
-    if curr_dir == direction or direction is None:
+    if (curr_dir == direction or direction is None) and last != number:
         counter += 1
+    elif last == number:
+        if counter > max_len:
+            max_len = counter
+        counter = 1
     else:
         # Если направление изменилось, проверяем максимальную длину
         if counter > max_len:
