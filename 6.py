@@ -18,4 +18,4 @@ for i in range(1, number + 1):
     result += 1 / fact
 
 # Выводим результат, округленный до пятого знака после запятой
-print(round(result, 5)))
+print(round(result, 5))
